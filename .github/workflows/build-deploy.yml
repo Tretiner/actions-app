@@ -1,5 +1,8 @@
 name: Build/Deploy
 
+env:
+  REGISTRY_NAME: ghcr.io
+
 on:
   push:
     branches: [ main, master, develop ]
@@ -18,8 +21,8 @@ jobs:
       - name: Setup variables
         run: |
           REPOSITORY_NAME_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          REGISTRY_NAME="ghcr.io/${REPOSITORY_NAME_LOWER}:latest"
-          echo "REGISTRY_NAME=${REGISTRY_NAME}" >> $GITHUB_ENV
+          REGISTRY_NAME="${{ env.REGISTRY_NAME }}/${REPOSITORY_NAME_LOWER}:latest"
+          echo "REGISTRY_IMAGE=${REGISTRY_NAME}" >> $GITHUB_ENV
           echo "Set registry name: ${REGISTRY_NAME}"
 
       - name: Checkout repository
@@ -31,7 +34,7 @@ jobs:
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY_NAME }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
