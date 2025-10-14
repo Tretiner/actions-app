@@ -1,0 +1,7 @@
+﻿services:
+  actionsapp:
+    image: actionsapp
+    build:
+      context: .
+      dockerfile: ActionsApp/Dockerfile
+
