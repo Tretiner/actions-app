@@ -26,7 +26,7 @@ jobs:
           echo "Files in folder:"
           ls
           echo "Checking for Dockerfile:"
-          find ../../.. -name "Dockerfile" -type f
+          find .. -name "Dockerfile" -type f
 
       - name: Setup variables
         run: |
@@ -48,13 +48,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker image
-        run: |
-          docker build -t ${{ env.REGISTRY_IMAGE }} ..
-
-      - name: Push Docker image
-        run: |
-          docker push ${{ env.REGISTRY_IMAGE }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY_IMAGE }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
