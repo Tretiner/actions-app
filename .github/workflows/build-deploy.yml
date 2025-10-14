@@ -1,10 +1,7 @@
 name: Build/Deploy
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ lower(github.repository) }}
-  
-  GHCR_REGISTRY_IMAGE: ${{ REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+  REGISTRY_IMAGE: ghcr.io/${{ lower(github.repository) }}:latest
 
 on:
   push:
@@ -32,11 +29,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.GHCR_REGISTRY_IMAGE }} .
+          docker build -t ${{ env.REGISTRY_IMAGE }} .
 
       - name: Push Docker image
         run: |
-          docker push ${{ env.GHCR_REGISTRY_IMAGE }}
+          docker push ${{ env.REGISTRY_IMAGE }}
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
@@ -46,6 +43,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /path/to/your/app
-            docker pull ${{ env.GHCR_REGISTRY_IMAGE }}
+            docker pull ${{ env.REGISTRY_IMAGE }}
             docker-compose down
             docker-compose up -d
