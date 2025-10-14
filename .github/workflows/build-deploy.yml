@@ -1,7 +1,7 @@
 name: Build/Deploy
 
 env:
-  APP_DIR: /opt/actions_app
+  APP_DIR: /opt/actions_app/
   REGISTRY_NAME: ghcr.io
 
 on:
@@ -66,6 +66,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Prepare server directory
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            mkdir -p ${{ env.APP_DIR }}
   
       - name: Copy compose files to server
         uses: appleboy/scp-action@v0.1.3
@@ -74,7 +83,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_SSH_KEY }}
           source: "compose.yaml"
-          target: "/opt/actions_app/"
+          target: ${{ env.APP_DIR }}
   
       - name: Deploy with Docker Compose
         uses: appleboy/ssh-action@v1.0.3
@@ -83,7 +92,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /opt/actions_app
+            cd ${{ env.APP_DIR }}
             docker compose pull
             docker compose down
             docker compose up -d
