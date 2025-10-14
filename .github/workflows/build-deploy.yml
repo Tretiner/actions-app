@@ -18,6 +18,14 @@ jobs:
       packages: write
 
     steps:
+      - name: Debug - List files
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Files in repository:"
+          ls -la
+          echo "Checking for Dockerfile:"
+          find . -name "Dockerfile" -type f
+
       - name: Setup variables
         run: |
           REPOSITORY_NAME_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
@@ -40,6 +48,7 @@ jobs:
 
       - name: Build Docker image
         run: |
+          echo 
           docker build -t ${{ env.REGISTRY_IMAGE }} .
 
       - name: Push Docker image
