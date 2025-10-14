@@ -1,7 +1,7 @@
 name: Build/Deploy
 
 env:
-  APP_DIR: /opt/actions_app/
+  APP_DIR: ~/actions_app/
   REGISTRY_NAME: ghcr.io
 
 on:
