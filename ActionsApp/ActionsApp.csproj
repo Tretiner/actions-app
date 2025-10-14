@@ -12,12 +12,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-      <Content Include="..\.github\workflows\**">
-          <Link>github-workflows\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+
+        <Content Include="..\.github\workflows\**">
+            <Link>github-workflows\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Content>
     </ItemGroup>
 
 </Project>
