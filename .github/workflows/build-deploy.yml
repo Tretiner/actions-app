@@ -67,6 +67,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            mkdir -p ${{ env.APP_DIR }}
             cd ${{ env.APP_DIR }}
             # Pull latest images
             docker compose pull
