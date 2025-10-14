@@ -56,7 +56,6 @@ jobs:
           push: true
           tags: |
             ${{ env.REGISTRY_IMAGE }}-actions_app:latest
-            ${{ env.REGISTRY_IMAGE }}-actions_app:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
