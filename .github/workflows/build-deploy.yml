@@ -17,9 +17,10 @@ jobs:
     steps:
       - name: Setup variables
         run: |
-          REPOSITORY_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          REGISTRY_NAME=ghcr.io/${REPOSITORY_NAME}:latest
-          REGISTRY_NAME >> $GITHUB_ENV
+          REPOSITORY_NAME_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          REGISTRY_NAME="ghcr.io/${REPOSITORY_NAME_LOWER}:latest"
+          echo "REGISTRY_NAME=${REGISTRY_NAME}" >> $GITHUB_ENV
+          echo "Set registry name: ${REGISTRY_NAME}"
 
       - name: Checkout repository
         uses: actions/checkout@v4
