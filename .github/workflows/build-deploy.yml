@@ -1,7 +1,7 @@
 name: Build/Deploy
 
 env:
-  APP_DIR: ~/actions_app/
+  APP_DIR: /home/github_actions/actions_app/
   REGISTRY_NAME: ghcr.io
 
 on:
