@@ -29,6 +29,7 @@ jobs:
           echo "Checking for Dockerfile:"
           find .. -name "Dockerfile" -type f
 
+
       - name: Setup variables
         run: |
           REPOSITORY_NAME_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
